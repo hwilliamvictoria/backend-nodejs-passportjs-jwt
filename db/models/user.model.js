@@ -18,6 +18,11 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
+    type: DataTypes.STRING
+  },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -48,6 +53,31 @@ class User extends Model {
     }
   }
 }
+
+/* static config(sequelize){
+  return {
+    sequelize,
+    tableName: USER_TABLE,
+    modelName: 'User',
+    timestamps: false,
+    hooks: {
+      beforeCreate: async (user) => {
+        const password = await bcrypt.hash(user.password, 10);
+        user.password = password;
+      },
+    },
+    defaultScope: {
+      attributes: { exclude: ['password'] },
+    },
+    scopes: {
+      withPassword:{ attributes: {}, }
+    },
+  }
+} */
+
+//Para realizar las consulta con el scope withPassword:
+//const user = await models.User.scope("withPassword").findByPk(id);
+
 
 
 module.exports = { USER_TABLE, UserSchema, User }
